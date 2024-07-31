@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/public/css/bootstrap.min.css">
+    <script src="/public/js/bootstrap.bundle.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+        integrity="sha512-abcdefg...." crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="/public/js/notiflix-aio-3.2.6.min.js"></script>
+    <style>
+        .search-bar {
+            position: absolute;
+            /* top: 20px;
+            right: 10px; */
+
+        }
+
+        .add-icon {
+            margin-bottom: 30px;
+            text-align: right;
+            /* margin-top: 90px; */
+        }
+
+        .add-icon a {
+            text-decoration: none;
+        }
+    </style>
+
+
+</head>
+
+<body>
+    <div class="container-fluid" style="margin: 0;">
+        <div class="row">
+            <!-- Left -->
+            <div class="col-md-2">
+                <div class="row text-center"
+                    style="background-color: rgb(190, 173, 250); height: 100vh; border-radius: 0px 30px 30px 0px;">
+
+                    <div class="container d-flex flex-column align-items-center">
+                        <i class="bi-person-circle" style="font-size: 3rem;"></i>
+
+                        <button class="btn mb-4"
+                            style="background-color: rgb(255, 243, 218); text-align: left; border-radius: 250px; font-size: 1.5rem; font-weight: bold;">Staff</button>
+
+                        <button class="btn mb-2 bg-dark"
+                            style="color: #FEDADA; text-align: left; border-radius: 250px; font-size: 1.5rem">
+                            <i class="fas fa-home" style="font-size: 2rem;"></i>Asset List
+                        </button>
+
+                        <button onclick="db()" class="btn mb-3 text-muted"
+                            style="text-align: left; border-radius: 250px; font-size: 1.5rem">
+                            <i class="fas fa-chart-bar" style="font-size: 2rem;"></i> Dashboard</button>
+
+                        <button onclick="history()" class="btn mb-3 text-muted"
+                            style="text-align: left; border-radius: 250px; font-size: 1.5rem">
+                            <i class="fas fa-history" style="font-size: 2rem;"></i> History</button>
+
+
+                    </div>
+
+                    <button onclick="logout()" class="btn mt-auto text-muted">
+                        <i class="fas fa-sign-out-alt" style="font-size: 2rem;"></i>
+                        <span style="font-size: 1.5rem;">Log Out</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- ========================================= Right side ============================================================= -->
+            <div class="col-md-10 container">
+                <div class="row mt-4">
+                    <div class="container d-flex-end mb-5">
+                        <nav class="navbar navbar-expand navbar-light">
+                            <div class="container">
+                                <a class="nav-item nav-link active" href="#" aria-current="page"
+                                    style="font-size: 25px;">
+                                </a>
+                                <form class="d-flex" id="searchForm" style="background-color: gray;">
+                                    <input type="text" placeholder="Search" id="searchInput">
+                                    <button class="btn" onclick="searchProducts()"><i class="bi-search"></i></button>
+                                </form>
+                            </div>
+                        </nav>
+                    </div>
+
+                    <div class="add-icon ">
+                        <a href="#" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalId">
+                            <i class="fas fa-plus"></i> Add
+                        </a>
+                    </div>
+
+                    <div class="modal fade" id="modalId" tabindex="-1" data-bs-backdrop="static"
+                        data-bs-keyboard="false" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-sm"
+                            role="document">
+                            <form action="" id="addProductForm">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="modalTitleId">Add
+                                            asset</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Name
+                                        <input type="text" id="name" class="form-control mb-2" placeholder="Name">
+                                        Asset Status
+                                        <select class="form-control" id="status" name="status" placeholder="Status">
+                                            <option value="1">Available</option>
+                                            <option value="2">Borrowed</option>
+                                            <option value="0">Disable</option>
+                                        </select>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                        <button type="button" id="btnSaveAdd" class="btn btn-primary"
+                                            onclick="addProduct()">Save</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Image</th>
+                                    <th>Name</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tblProduct">
+                            </tbody>
+
+
+                    </div>
+
+                    <div class="modal fade" id="modalEdit" tabindex="-1" data-bs-backdrop="static"
+                        data-bs-keyboard="false" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-sm"
+                            role="document">
+                            <form action="" id="updateProductForm">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="modalTitleId">Edit asset</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+
+                                        Name
+                                        <input type="text" id="txtName" class="form-control mb-2"
+                                            placeholder="edit_name" name="edit_name">
+                                        Asset Status
+                                        <select class="form-control" id="txtName" name="edit_status" placeholder="edit_status">
+                                            <option value="1">Available</option>
+                                            <option value="2">Borrowed</option>
+                                            <option value="0">Disable</option>
+                                        </select>
+                                        <input type="hidden" id="id" name="AssID">
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                        <button type="button" id="btnEdit" class="btn btn-primary"
+                                            onclick="updateProduct()">Update</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        async function fetchData() {
+            try {
+                const response = await fetch('http://localhost:3000/products');
+              
+                if (response.ok) {
+                    const data = await response.json();
+                    populateTable(data); 
+                } else {
+                    console.error('Error fetching data from the API');
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
+
+        function populateTable(data) {
+            const tableBody = document.getElementById('tblProduct');
+
+    
+            tableBody.innerHTML = '';
+            data.sort((a, b) => {
+    
+        if (a['Ass_status'] === 1) return -1; 
+        if (a['Ass_status'] === 2 && b['Ass_status'] !== 1) return -1; 
+        return 1; 
+    });
+
+            data.forEach((product, index) => {
+                console.log(product);
+                if (product['Ass_status'] == 1) {
+                    var color = "green";
+                    var status = 'Avaliable';
+                }
+                else if (product['Ass_status'] == 2) {
+                    var color = "orange";
+                    var status = 'Borrowed';
+                }
+                else {
+                    var color = "red";
+                    var status = 'Disabled';
+                }
+                if(product['AssName'] == 'Ipad' || product['AssName'] == 'ipad'){
+                    var image = "http://www.pngall.com/wp-content/uploads/5/iPad-PNG-Image-HD.png";
+                }
+                else if(product['AssName'] == 'Laptop' || product['AssName'] == 'laptop'){
+                    var image = "https://pngimg.com/uploads/laptop/laptop_PNG101774.png";
+                }
+                else if(product['AssName'] == 'Mouse' || product['AssName'] == 'mouse'){
+                    var image = "https://purepng.com/public/uploads/large/purepng.com-pc-mousepc-mousepcmouselaptop-mouse-1701528347542ws1aa.png";
+                }
+                else if(product['AssName'] == 'Pen' || product['AssName'] == 'pen'){
+                    var image = "https://t4.ftcdn.net/jpg/05/38/96/77/360_F_538967773_k7HKN532LiE1klwrDQAoMZZXFIgcEVaB.jpg";
+                }
+                else if(product['AssName'] == 'Calculator' || product['AssName'] == 'calculator'){
+                    var image = "https://w7.pngwing.com/pngs/724/729/png-transparent-calculator-calculator-electronics-calculator-technology-thumbnail.png";
+                }
+                else{
+                    var image = "";
+                }
+                const row = `<tr>
+                                <td>${index + 1}</td>
+                                <td><img src="${image}" width="60px" height="auto"></td>
+                                <td class="name_${product['AssID']}">${product['AssName']}</td>
+                                <td style="color:${color}" class="status_${product['AssID']}">${status}</td>
+                                <td>
+                                    <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalEdit" onclick="setId(${product['AssID']})">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="#" class="btn btn-danger btn-delete" onclick="deleteProduct(${product['AssID']})">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </a>
+                                </td>
+                            </tr>`;
+                tableBody.innerHTML += row;
+            });
+        }
+
+
+        fetchData();
+
+        function db() {
+            window.location.href = "/list/staff-list/staff";
+        }
+        function asset() {
+            window.location.href = "/list/staff/";
+        }
+        function history() {
+            window.location.href = "/list/history/staff";
+        }
+        function logout() {
+            window.location.href = "/";
+        }
+
+        async function deleteProduct(id) {
+            const options = {
+                method: 'DELETE'
+            }
+            try {
+                console.log(id);
+                const response = await fetch('/products/' + id, options);
+                if (response.ok) {
+                    const data = await response.text();
+                    Notiflix.Report.success('Success', data, 'Close');
+                   
+                    fetchData();
+                }
+                else if (response.status == 500) {
+                    const data = response.text();
+                    throw Error(data);
+                }
+            } catch (err) {
+                console.error(err.message);
+                Notiflix.Report.failure('Error', err.message, 'Close');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const deleteButtons = document.querySelectorAll('.btn-delete');
+            const id = this.id;
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', function () {
+
+                    Swal.fire({
+                        title: 'Are you sure?',
+                        text: 'You will not be able to recover this item!',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes, delete it!',
+                        cancelButtonText: 'No, cancel!',
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#3085d6',
+                    }).then((result) => {
+
+                        if (result.isConfirmed) {
+                            deleteProduct(id);
+
+
+                            Swal.fire(
+                                'Deleted!',
+                                'Your item has been deleted.',
+                                'success'
+                            );
+                        }
+                    });
+                });
+            });
+        });
+        async function setId(id) {
+            console.log(id);
+            const formLogin = document.querySelector('#updateProductForm');
+            var name = document.getElementsByClassName(`name_${id}`)[0].innerText;
+            var status = document.getElementsByClassName(`status_${id}`)[0].innerText;
+            formLogin['AssID'].value = id;
+            formLogin['edit_name'].value = name;
+            formLogin['edit_status'].value = status;
+        }
+
+        async function addProduct() {
+            const formLogin = document.querySelector('#addProductForm')
+            const name = formLogin['name'].value;
+            const status = formLogin['status'].value;
+            const image = "image";
+            try {
+                const options = {
+                    method: 'POST',
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ "AssImg": image, "AssName": name, "Ass_status": status, }),
+                };
+                const response = await fetch('/products', options);
+                if (response.ok) {
+                    const data = await response.text();
+                    fetchData();
+                    Notiflix.Report.success('Success', data, 'OK');
+                }
+                else if (response.status == 401) {
+                    const data = await response.text();
+                    throw Error(data);
+                }
+                else {
+                    throw Error('Connection error');
+                }
+            } catch (err) {
+                console.error(err.message);
+           
+                Notiflix.Report.failure('Error', err.message, 'Close');
+            }
+        }
+
+        async function updateProduct(id) {
+            const formLogin = document.querySelector('#updateProductForm');
+            const assid = formLogin['AssID'].value;
+            const name = formLogin['edit_name'].value;
+            const status = formLogin['edit_status'].value;
+            try {
+                const options = {
+                    method: 'PUT',
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ "AssetName": name, "Ass_status": status, "AssID": assid }),
+                };
+                const response = await fetch('/products/update', options);
+                if (response.ok) {
+                    const data = await response.text();
+                    fetchData();
+                    Notiflix.Report.success('Success', data, 'OK');
+                }
+                else if (response.status == 401) {
+                    const data = await response.text();
+                    throw Error(data);
+                }
+                else {
+                    throw Error('Connection error');
+                }
+            } catch (err) {
+                console.error(err.message);
+                Notiflix.Report.failure('Error', err.message, 'Close');
+            }
+        }
+
+        function searchProducts() {
+            const searchTerm = document.getElementById('searchInput').value;
+
+
+            fetch(`/products/search/${searchTerm}`)
+                .then(response => response.json())
+                .then(data => {
+
+                    populateTable(data);
+                })
+                .catch(error => {
+                    console.error('Error fetching search results:', error);
+                });
+        }
+
+        document.getElementById('searchForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            searchProducts();
+        });
+
+        function asset() {
+                            window.location.href = "/list/staff-edit/staff";
+                        }
+                        function db() {
+                            window.location.href = "/list/staff-list/staff";
+                        }
+                        function history() {
+                            window.location.href = "/list/history/staff";
+                        }
+                        function logout() {
+                            window.location.href = "/";
+                        }
+
+    </script>
+
+</body>
+
+</html>

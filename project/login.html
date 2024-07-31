@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+        <link rel="stylesheet" href="/public/css/login.css">
+        <script src="/public/js/notiflix-aio-3.2.6.min.js"></script>
+        <title>Login Page</title>
+    </head>
+
+    <body>
+
+        <div class="container" id="container">
+            <div class="form-container login1">
+                <form>
+                    <h1>Login</h1>
+                    <input type="text" placeholder="Email" id="email1"
+                        autocomplete="email">
+                    <input type="password" placeholder="Password" id="password1"
+                        autocomplete="current-password">
+                    <button type="button" id="loginbtn1">Login</button>
+                </form>
+            </div>
+            <div class="form-container login2">
+                <form>
+                    <h1>Login</h1>
+                    <input type="text" placeholder="Email" id="email2"
+                        autocomplete="email">
+                    <input type="password" placeholder="Password" id="password2"
+                        autocomplete="current-password">
+                    <button type="button" id="loginbtn2">Login</button>
+                    <p style="font-size: 1rem;">Don't have an account? <a
+                            id="toRegisbtn">Register</a></p>
+                </form>
+            </div>
+            <div class="toggle-container">
+                <div class="toggle">
+                    <div class="toggle-panel toggle-left">
+                        <h1>Welcome Staff/Lecturer!</h1>
+                        <p>Student Please Click Here</p>
+                        <button class="hidden" id="login">Student</button>
+                    </div>
+                    <div class="toggle-panel toggle-right">
+                        <h1>Welcome Student!</h1>
+                        <p>Staff&Lecturer Please Click Here</p>
+                        <button class="hidden" id="loginstaff">Staff/Lecturer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+        const container = document.getElementById('container');
+        const staffBtn = document.getElementById('loginstaff');
+        const loginBtn = document.getElementById('login');
+
+        staffBtn.addEventListener('click', () => {
+            container.classList.add("active");
+        });
+
+        loginBtn.addEventListener('click', () => {
+            container.classList.remove("active");
+        });
+    //// Login ////
+        document.querySelector('#loginbtn1').onclick = async function (e) {
+            const email = document.querySelector('#email1').value;
+            const password = document.querySelector('#password1').value;
+
+            try {
+                const options = {
+                    method: 'POST',
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ "email": email, "password": password }),
+                };
+                const response = await fetch('/login', options);
+                if (response.ok) {
+                    const data = await response.text();
+                    Notiflix.Report.success('Success','Login Successful');
+                   
+                    location.replace(data);
+
+                }
+                else if (response.status == 401) {
+                    const data = await response.text();
+                    throw Error(data);
+                }
+                else {
+                    throw Error('Connection error');
+                }
+            } catch (err) {
+                console.error(err.message);
+                Notiflix.Report.failure('Error', err.message, 'Close');
+            }
+        }
+
+
+        document.querySelector('#loginbtn2').onclick = async function (e) {
+            const email = document.querySelector('#email2').value;
+            const password = document.querySelector('#password2').value;
+
+            try {
+                const options = {
+                    method: 'POST',
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ "email": email, "password": password }),
+                };
+                const response = await fetch('/login', options);
+                if (response.ok) {
+                    const data = await response.text();
+                    Notiflix.Report.success('Success','Login Successful');
+                   
+                    location.replace(data);
+
+                }
+                else if (response.status == 401) {
+                    const data = await response.text();
+                    throw Error(data);
+                }
+                else {
+                    throw Error('Connection error');
+                }
+            } catch (err) {
+                console.error(err.message);
+                Notiflix.Report.failure('Error', err.message, 'Close');
+            }
+        }
+
+        document.querySelector('#toRegisbtn').onclick = function () {
+            window.location.assign('/register')
+        }
+    </script>
+    </body>
+
+</html>

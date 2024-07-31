@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>List</title>
+        <link rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+            rel="stylesheet">
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+        <script
+            src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+        <link rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+            integrity="sha512-abcdefg...." crossorigin="anonymous"
+            referrerpolicy="no-referrer" />
+    </head>
+
+    <body>
+        <div class="container-fluid" style="margin: 0;">
+            <div class="row">
+                <!-- Left -->
+                <div class="col-md-2">
+                    <div class="row text-center"
+                        style="background-color: rgb(190, 173, 250); height: 100vh; border-radius: 0px 30px 30px 0px;">
+
+                        <div
+                            class="container d-flex flex-column align-items-center">
+                            <i class="bi-person-circle" style="font-size: 3rem;"></i>
+
+                            <button onclick="profile()" class="btn mb-4"
+                                style="background-color: rgb(255, 243, 218); text-align: left; border-radius: 250px; font-size: 1.5rem; font-weight: bold;">Student</button>
+
+                            <button onclick="browseAsset()"
+                                class="btn mb-2 bg-dark"
+                                style="color: #FEDADA; text-align: left; border-radius: 250px; font-size: 1.5rem">
+                                <i class="bi-house-fill"
+                                    style="font-size: 2rem;"></i>Browse Asset
+                                List
+                            </button>
+
+                            <button onclick="status()"
+                                class="btn mb-3 text-muted"
+                                style="text-align: left; border-radius: 250px; font-size: 1.5rem">
+                                <i class="bi-card-checklist"
+                                    style="font-size: 2rem;"></i> Status</button>
+                        </div>
+
+                        <button onclick="logout()"
+                            class="btn mt-auto text-muted">
+                            <i class="fas fa-sign-out-alt"
+                                style="font-size: 2rem;"></i>
+                            <span style="font-size: 1.5rem;">Log Out</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Right -->
+                <div class="col-md-10 container">
+                    <div class="row mt-4">
+                        <div class="container d-flex-end mb-5">
+                            <nav class="navbar navbar-expand navbar-light">
+                                <div class="container">
+                                    <a class="nav-item nav-link active" href="#"
+                                        aria-current="page"
+                                        style="font-size: 25px;"></a>
+
+                                </div>
+                            </div>
+
+                            <div class="modal fade" id="modalId" tabindex="-1"
+                                data-bs-backdrop="static"
+                                data-bs-keyboard="false" role="dialog"
+                                aria-labelledby="modalTitleId"
+                                aria-hidden="true">
+                                <div
+                                    class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-sm"
+                                    role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title"
+                                                id="modalTitleId">Add asset</h5>
+                                            <button type="button"
+                                                class="btn-close"
+                                                data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            No.
+                                            <input type="number" id="txtAge"
+                                                class="form-control"
+                                                placeholder="Number">
+                                            Name
+                                            <input type="text"
+                                                id="txtAssetStatus"
+                                                class="form-control mb-2"
+                                                placeholder="Name">
+                                            Asset Status
+                                            <input type="text" id="txtName"
+                                                class="form-control mb-2"
+                                                placeholder="Status">
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button"
+                                                class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Close</button>
+                                            <button type="button"
+                                                id="btnSaveAdd"
+                                                class="btn btn-primary">Save</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="table-container">
+
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>No.</th>
+                                            <th>Name</th>
+                                            <th>Asset Status</th>
+                                            <th>Date for borrowing</th>
+                                            <th>Date for return</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody id="table-body">
+                                        <!-- Table rows will be dynamically added here -->
+                                    </tbody>
+                                </table>
+                                <div
+                                    class="container d-flex flex-column align-items-center mt-5">
+                                    <button id="btnSubmit" type="submit"
+                                        class="btn btn-primary">Submit</button>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+    function profile() {
+        window.location.href = "/profile";
+    }
+
+    function status() {
+        window.location.href = "/list/status/student";
+    }
+
+    function logout() {
+        window.location.href = "/";
+    }
+
+    function browseAsset() {
+            window.location.href = "/list1/student";
+        }
+
+    const selectedItems = JSON.parse(localStorage.selectedItems || '[]');
+const selectedDates = JSON.parse(localStorage.selectedDates || '[]');
+const tableBody = document.getElementById("table-body");
+
+
+if (selectedItems.length > 0 && selectedDates.length > 0) {
+  
+    selectedItems.forEach((item, index) => {
+        const row = document.createElement("tr");
+
+        const statusClass = item.status === 'Available' ? 'text-success' : item.status === 'Borrowed' ? 'text-warning' : 'text-danger';
+
+        row.innerHTML = `
+            <td>${index + 1}</td>
+            <td>${item.name}</td>
+            <td <p>Waiting</p> </td>
+            <td>${selectedDates[index].date1}</td>
+            <td>${selectedDates[index].date2}</td>
+        `;
+
+        tableBody.appendChild(row);
+    });
+
+    const btnSubmit = document.getElementById('btnSubmit');
+    btnSubmit.addEventListener('click', function () {
+        saveBorrowingToDatabase();
+        Swal.fire({
+            icon: 'success',
+            title: 'Complete',
+            text: 'Your borrowing is complete',
+        }).then(() => {
+           
+            $('#modalId').modal('show');
+
+         
+            window.location.replace("/list1/student");
+        });
+    }).catch(error => {
+        console.error('Error:', error);
+        
+    });
+} else {
+    console.error("Selected items or dates array is empty");
+}
+function saveBorrowingToDatabase() {
+    const selectedItems = JSON.parse(localStorage.selectedItems || '[]');
+    const selectedDates = JSON.parse(localStorage.selectedDates || '[]');
+
+
+    if (selectedItems.length > 0 && selectedDates.length > 0) {
+        const borrowingData = {
+            items: selectedItems,
+            dates: selectedDates,
+        };
+
+        const borrowingValues = borrowingData.items.map((item, index) => ({
+            AssID: item.id,
+            Borrowed: borrowingData.dates[index].date1,
+            Returned: borrowingData.dates[index].date2,
+            Borrow_status: 0, 
+            Reject_note: '',
+        }));
+
+        fetch('/saveBorrowingData', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ items: borrowingValues }),
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Success:', data);
+             
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Complete',
+                    text: 'Your borrowing is complete',
+                });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    } else {
+        console.error("Selected items or dates array is empty");
+    }
+}
+
+
+</script>
+
+        </body>
+
+    </html>

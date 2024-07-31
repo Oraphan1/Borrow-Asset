@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Home Page</title>
+        <link rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+        <link rel="stylesheet" href="/public/css/bootstrap.min.css">
+        <script src="/public/js/bootstrap.bundle.min.js"></script>
+    </head>
+    <body>
+        <!-- Nav bar -->
+        <nav class="navbar navbar-expand navbar-light"
+            style="background-color: rgb(190, 173, 250);">
+            <div class="container">
+                <a class="nav-item nav-link active" href="#" aria-current="page"
+                    style="font-size: 25px;">Asset borrowing system</a>
+                <form class="d-flex my-2 my-lg-0">
+                    <a href="/login" class="btn">Login</a>
+                    <a href="/register" class="btn"
+                        style="background-color: rgb(255, 243, 218);">Register</a>
+                </form>
+            </div>
+        </nav>
+
+        <!-- Boby -->
+        <div class="container mb-5">
+            <div class="row pt-5">
+                <h2 class="text-center pt-5 ">Feature</h2>
+                <div class="col  pt-6"
+                    style="padding-top: 5rem; padding-bottom: 5rem;">
+                    <div class=" shadow p-5 rounded text-center">
+                        <i class="bi-eye-fill" style="font-size: 5rem;"></i>
+                        <h5>Anyone can view the asset they want to borrow on the
+                            website.</h5>
+                    </div>
+                </div>
+                <div class="col pt-6" style="padding-top: 5rem;">
+                    <div class=" shadow p-5 rounded text-center">
+                        <i class="bi-check-square"
+                            style="font-size: 5rem; padding-bottom: 5rem;"></i>
+                        <h5>Can check the status of borrowed assets.</h5>
+                    </div>
+                </div>
+                <div class="col pt-6"
+                    style="padding-top: 5rem; padding-bottom: 5rem;">
+                    <div class=" shadow p-5 rounded text-center">
+                        <i class="bi-cart" style="font-size: 5rem;"></i>
+                        <h5>Schedule your borrowing and return time as you wish.</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- foot Bar -->
+        <div class="container-fluid  py-2 pt-4 mt-auto"
+            style="background-color: rgb(217, 217, 217);">
+            <form>
+                <p>Check status borrowing <a href="/login">Click here</a></p>
+            </form>
+        </div>
+    </body>
+</html>

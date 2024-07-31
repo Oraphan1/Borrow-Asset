@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>List</title>
+        <link rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+        <link rel="stylesheet" href="/public/css/bootstrap.min.css">
+        <script src="/public/js/bootstrap.bundle.min.js"></script>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+        <script
+            src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+        <link rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+            integrity="sha512-abcdefg...." crossorigin="anonymous"
+            referrerpolicy="no-referrer" />
+        <script type="text/javascript"
+            src="https://www.gstatic.com/charts/loader.js"></script>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+
+        <style>
+        .col-md-2 {
+            position: fixed;
+            height: 100%;
+            overflow-y: auto;
+        }
+
+        .col-md-10 {
+            margin-left: 200px;
+            padding-right: 15px;
+        }
+
+        .table-container {
+            margin-top: 100px;
+            margin-left: 115px;
+        }
+        
+    </style>
+    </head>
+
+    <body>
+        <div class="container-fluid" style="margin: 0;">
+            <div class="row">
+                <!-- Left -->
+                <div class="col-md-2">
+                    <div class="row text-center"
+                        style="background-color: rgb(190, 173, 250); height: 100vh; border-radius: 0px 30px 30px 0px;">
+                        <div
+                            class="container d-flex flex-column align-items-center">
+                            <i class="bi-person-circle" style="font-size: 3rem;"></i>
+
+                            <button class="btn mb-4"
+                                style="background-color: rgb(255, 243, 218); text-align: left; border-radius: 250px; font-size: 1.5rem; font-weight: bold;">Lecturer</button>
+
+                            <button onclick="asset()"
+                                class="btn mb-2  text-muted"
+                                style=" text-align: left; border-radius: 250px; font-size: 1.5rem">
+                                <i class="fas fa-home" style="font-size: 2rem;"></i>Asset
+                                List
+                            </button>
+
+                            <button onclick="db()" class="btn mb-3 bg-dark"
+                                style="color: #FEDADA; text-align: left; border-radius: 250px; font-size: 1.5rem">
+                                <i class="fas fa-chart-bar"
+                                    style="font-size: 2rem;"></i> Dashboard</button>
+
+                            <button onclick="history()"
+                                class="btn mb-3 text-muted "
+                                style="text-align: left; border-radius: 250px; font-size: 1.5rem">
+                                <i class="fas fa-history"
+                                    style="font-size: 2rem;"></i> History</button>
+
+                        </div>
+
+                        <button onclick="logout()"
+                            class="btn mt-auto text-muted">
+                            <i class="fas fa-sign-out-alt"
+                                style="font-size: 2rem;"></i>
+                            <span style="font-size: 1.5rem;">Log Out</span>
+                        </button>
+                    </div>
+                </div>
+                <!-- ขวา -->
+                <div class="col-md-10">
+                    <div class="row mt-4">
+                        <!-- Button seacrh -->
+                        <div class="container d-flex-end ">
+                            <nav class="navbar navbar-expand navbar-light">
+                                <div class="container">
+                                    <a class="nav-item nav-link active" href="#"
+                                        aria-current="page"
+                                        style="font-size: 25px;">
+                                    </a>
+                                    <form class="d-flex" id="searchForm"
+                                        style="background-color: gray;">
+                                        <input type="text" placeholder="Search"
+                                            id="searchInput">
+                                        <button class="btn"
+                                            onclick="searchProducts()"><i
+                                                class="bi-search"></i></button>
+                                    </form>
+                                </div>
+                            </nav>
+                        </div>
+                        <div class="container mt-5">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <div class="card-header"
+                                            style="background-color: green;color:white;">
+                                            Avaliable
+                                        </div>
+                                        <div class="card-body">
+                                            <h5 class="card-title">Avaliable
+                                                Product Count</h5>
+                                            <p class="card-text"><span
+                                                    id="availableCount">0</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <div class="card-header"
+                                            style="background-color: red;color:white;">
+                                            Disabled
+                                        </div>
+                                        <div class="card-body">
+                                            <h5 class="card-title">Disabled
+                                                Product Count</h5>
+                                            <p class="card-text"><span
+                                                    id="disabledCount">0</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <div class="card-header"
+                                            style="background-color: orange;color:white;">
+                                            Borrowed
+                                        </div>
+                                        <div class="card-body">
+                                            <h5 class="card-title">Borrowed
+                                                Product Count</h5>
+                                            <p class="card-text"><span
+                                                    id="borrowedCount">0</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div
+                                style="display: flex; justify-content: center; align-items: center; ">
+                                <canvas id="myChart"
+                                    style="max-width: 600px; width: 100%;"></canvas>
+                            </div>
+
+                            <!-- Table -->
+                            <div class="table-container">
+
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Image</th>
+                                            <th>Name</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tblProduct">
+                                    </tbody>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <script>
+         
+          async function fetchData() {
+            try {
+                const response = await fetch('http://localhost:3000/products');
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    populateTable(data);
+                } else {
+                    console.error('Error fetching data from the API');
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
+
+        async function fetchDataSecond() {
+            try {
+                const response = await fetch('http://localhost:3000/products');
+              
+                if (response.ok) {
+                    const data = await response.json();
+                    return data;
+                } else {
+                    console.error('Error fetching data from the API');
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
+
+        function populateTable(data) {
+            const tableBody = document.getElementById('tblProduct');
+
+        
+            tableBody.innerHTML = '';
+
+            data.forEach((product, index) => {
+                console.log(product);
+                if (product['Ass_status'] == 1) {
+                    var color = "green";
+                    var status = 'Avaliable';
+                }
+                else if (product['Ass_status'] == 2) {
+                    var color = "orange";
+                    var status = 'Borrowed';
+                }
+                else {
+                    var color = "red";
+                    var status = 'Disabled';
+                }
+                const row = `<tr>
+                                <td>${product['AssID']}</td>
+                                <td>${product['AssetName']}</td>
+                                <td style="color:${color}">${status}</td>
+                            </tr>`;
+                tableBody.innerHTML += row;
+            });
+        }
+
+
+        fetchData();
+
+
+      
+        fetch('http://localhost:3000/dbstaff')
+            .then(response => response.json())
+            .then(data => {
+                var available = 0;
+                var borrowed = 0;
+                var disabled = 0;
+
+                data.forEach((product, index) => {
+                    console.log(product);
+                    if (product['Ass_status'] == 1) {
+                        available++;
+
+                    } else if (product['Ass_status'] == 2) {
+                        borrowed++;
+
+                    } else {
+                        disabled++;
+                    }
+                });
+
+              
+                var xValues = ["Available", "Borrowed", "Disabled"];
+                var yValues = [available, borrowed, disabled];
+                var barColors = ["#009900", "#ff9900", "#ff0000"];
+
+                
+                var ctx = document.getElementById('myChart').getContext('2d');
+                var myChart = new Chart(ctx, {
+                    type: "pie",
+                    data: {
+                        labels: xValues,
+                        datasets: [{
+                            backgroundColor: barColors,
+                            data: yValues
+                        }]
+                    },
+                    options: {
+                        title: {
+                            display: true,
+                            text: "Product"
+                        }
+                    }
+                });
+            })
+            .catch(error => console.error('Error fetching data:', error));
+
+        function populateTable(data) {
+            const tableBody = document.getElementById('tblProduct');
+            const availableCount = document.getElementById('availableCount');
+            const disabledCount = document.getElementById('disabledCount');
+            const borrowedCount = document.getElementById('borrowedCount');
+
+        
+            tableBody.innerHTML = '';
+            data.sort((a, b) => {
+       
+        if (a['Ass_status'] === 1) return -1; 
+        if (a['Ass_status'] === 2 && b['Ass_status'] !== 1) return -1; 
+        return 1; 
+    });
+
+            let available = 0;
+            let disabled = 0;
+            let borrowed = 0;
+
+            data.forEach((product, index) => {
+                console.log(product);
+                if (product['Ass_status'] == 1) {
+                    available++;
+                    var color = "green";
+                    var status = 'Avaliable';
+                } else if (product['Ass_status'] == 2) {
+                    borrowed++;
+                    var color = "orange";
+                    var status = 'Borrowed';
+                } else {
+                    disabled++;
+                    var color = "red";
+                    var status = 'Disabled';
+                }
+                if(product['AssName'] == 'Ipad' || product['AssName'] == 'ipad'){
+                    var image = "http://www.pngall.com/wp-content/uploads/5/iPad-PNG-Image-HD.png";
+                }
+                else if(product['AssName'] == 'Laptop' || product['AssName'] == 'laptop'){
+                    var image = "https://pngimg.com/uploads/laptop/laptop_PNG101774.png";
+                }
+                else if(product['AssName'] == 'Mouse' || product['AssName'] == 'mouse'){
+                    var image = "https://purepng.com/public/uploads/large/purepng.com-pc-mousepc-mousepcmouselaptop-mouse-1701528347542ws1aa.png";
+                }
+                else if(product['AssName'] == 'Pen' || product['AssName'] == 'pen'){
+                    var image = "https://t4.ftcdn.net/jpg/05/38/96/77/360_F_538967773_k7HKN532LiE1klwrDQAoMZZXFIgcEVaB.jpg";
+                }
+                else if(product['AssName'] == 'Calculator' || product['AssName'] == 'calculator'){
+                    var image = "https://w7.pngwing.com/pngs/724/729/png-transparent-calculator-calculator-electronics-calculator-technology-thumbnail.png";
+                }
+                else{
+                    var image = "";
+                }
+                const row = `<tr>
+                        <td>${index + 1}</td>
+                        <td><img src="${image}" width="60px" height="auto"></td>
+                        <td>${product['AssName']}</td>
+                        <td style="color:${color}">${status}</td>
+                    </tr>`;
+                tableBody.innerHTML += row;
+            });
+
+          
+            availableCount.innerText = available;
+            disabledCount.innerText = disabled;
+            borrowedCount.innerText = borrowed;
+        }
+
+        function searchProducts() {
+            const searchTerm = document.getElementById('searchInput').value;
+
+            fetch(`/products/search/${searchTerm}`)
+                .then(response => response.json())
+                .then(data => {
+                    populateTable(data);
+                })
+                .catch(error => {
+                    console.error('Error fetching search results:', error);
+                });
+        }
+
+
+        function searchProducts() {
+            const searchTerm = document.getElementById('searchInput').value;
+
+            fetch(`/products/search/${searchTerm}`)
+                .then(response => response.json())
+                .then(data => {
+                    populateTable(data);
+                })
+                .catch(error => {
+                    console.error('Error fetching search results:', error);
+                });
+        }
+
+        document.getElementById('searchForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            searchProducts();
+        });
+
+            function asset() {
+                window.location.href = "/list/apporve/lecturer"
+            }
+            function history() {
+                window.location.href = "/list/history/lec"
+            }
+            function logout() {
+                window.location.href = "/"
+            }
+        </script>
+
+            </body>
+
+        </html>
